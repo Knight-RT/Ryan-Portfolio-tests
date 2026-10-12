@@ -1,0 +1,39 @@
+name: Portfolio acceptance
+on:
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: Reachable portfolio URL to test
+        required: true
+        type: string
+      contact_email:
+        description: Expected contact email (leave blank for pending draft)
+        default: ryan.tan.0310@gmail.com
+        required: false
+        type: string
+      linkedin_url:
+        description: Expected LinkedIn URL (leave blank for pending draft)
+        default: https://www.linkedin.com/in/ryan-tan0310/
+        required: false
+        type: string
+jobs:
+  acceptance:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm test
+        env:
+          BASE_URL: ${{ inputs.base_url }}
+          CONTACT_EMAIL: ${{ inputs.contact_email }}
+          LINKEDIN_URL: ${{ inputs.linkedin_url }}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/

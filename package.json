@@ -1,0 +1,7 @@
+{
+  "name": "ryan-portfolio-tests",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": { "test": "playwright test", "report": "playwright show-report" },
+  "devDependencies": { "@playwright/test": "1.56.1", "typescript": "5.9.3", "@types/node": "22.18.12" }
+}
