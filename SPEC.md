@@ -7,7 +7,7 @@
 - R5: An empty repository array produces a clear empty message.
 - R6: A failed repository request produces a clear error message.
 - R7: A navigation button named “Toggle dark mode” toggles body.dark.
-- R8: A fresh browser session starts light. The selection survives reload and same-tab navigation. A new browser context starts light.
+- R8: A fresh browser session starts dark. A selected light theme survives reload and same-tab navigation. A new browser context starts dark.
 - R9: A button named “Back to top” is hidden whenever the hero is visible, appears once the hero bottom crosses the viewport top, and scrolls to the top and hides when clicked.
 
 

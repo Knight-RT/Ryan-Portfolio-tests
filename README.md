@@ -2,6 +2,8 @@
 
 This repository tests the published browser interface against SPEC.md. It does not contain or inspect portfolio implementation code. Every test references one requirement, R1 through R9. GitHub API responses are intercepted with deterministic populated, empty, and failure fixtures; no GitHub credentials are required.
 
+Fresh browser sessions default to dark mode. R7 checks switching to light and back to dark. R8 checks that a light selection survives reload and navigation in the same tab, while a fresh browser context starts dark.
+
 Use Node.js 22 and install dependencies and Chromium:
 
 ```sh
