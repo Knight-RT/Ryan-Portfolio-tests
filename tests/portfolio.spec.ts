@@ -103,28 +103,30 @@ test('R6: failed response produces a clear error message', async ({ page }) => {
 test('R7: navigation dark-mode button toggles body.dark', async ({ page }) => {
   await open(page);
   const toggle = page.getByRole('navigation').getByRole('button', { name: 'Toggle dark mode', exact: true });
-  await toggle.click();
   await expect(page.locator('body')).toHaveClass(/\bdark\b/);
   await toggle.click();
   await expect(page.locator('body')).not.toHaveClass(/\bdark\b/);
+  await toggle.click();
+  await expect(page.locator('body')).toHaveClass(/\bdark\b/);
 });
 
-test('R8: theme persists in same tab but fresh contexts start light', async ({ page, browser }) => {
+test('R8: light choice persists in same tab but fresh contexts start dark', async ({ page, browser }) => {
   await open(page);
-  await expect(page.locator('body')).not.toHaveClass(/\bdark\b/);
-  await page.getByRole('button', { name: 'Toggle dark mode', exact: true }).click();
-  await page.reload();
   await expect(page.locator('body')).toHaveClass(/\bdark\b/);
+  await page.getByRole('button', { name: 'Toggle dark mode', exact: true }).click();
+  await expect(page.locator('body')).not.toHaveClass(/\bdark\b/);
+  await page.reload();
+  await expect(page.locator('body')).not.toHaveClass(/\bdark\b/);
   const navigationUrl = new URL(process.env.BASE_URL!);
   navigationUrl.hash = 'about';
   await page.goto(navigationUrl.href);
-  await expect(page.locator('body')).toHaveClass(/\bdark\b/);
+  await expect(page.locator('body')).not.toHaveClass(/\bdark\b/);
   const fresh = await browser.newContext();
   try {
     const newPage = await fresh.newPage();
     await mock(newPage);
     await newPage.goto(process.env.BASE_URL!);
-    await expect(newPage.locator('body')).not.toHaveClass(/\bdark\b/);
+    await expect(newPage.locator('body')).toHaveClass(/\bdark\b/);
   } finally { await fresh.close(); }
 });
 
